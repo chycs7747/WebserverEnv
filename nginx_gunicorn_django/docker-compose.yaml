@@ -1,0 +1,25 @@
+services:
+  web:
+    build:
+      context: ./app1
+    ports:   # 'expose'를 'ports'로 변경
+      - "8000:8000"
+    networks:
+      - mynetwork
+
+  nginx:
+    build:
+      context: ./app2
+    volumes:
+      - ./app2/myproject.conf:/etc/nginx/sites-available/myproject.conf
+      - ./app2/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - web # container_name 속성을 지정하지 않으면 기본적으로 web을 서비스 이름으로 Docker Compose에서 정의하고, Docker 내부 네트워크에서 자동으로 DNS 해석이 됨
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
