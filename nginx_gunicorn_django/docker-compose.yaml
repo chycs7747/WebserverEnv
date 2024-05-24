@@ -2,8 +2,8 @@ services:
   web:
     build:
       context: ./app1
-    ports:   # 'expose'를 'ports'로 변경
-      - "8000:8000"
+    expose:
+      - "8000"
     networks:
       - mynetwork
 
